@@ -24,13 +24,13 @@ router.get('/sampledata', userController.getSample);
 router.get('/getAllData', userController.getAllData);
 
 // Upload all data
-router.post('/upload-hshd', upload.single('household'), userController.uploadHouseholds);
+router.post('/upload-hshd', upload.single('household'), userController.uploadHouseDataSet);
 
 // Upload all data
-router.post('/upload-trnsctns', upload.single('transaction'), userController.uploadTransactions);
+router.post('/upload-trnsctns', upload.single('transaction'), userController.uploadTransDataSet);
 
 // Upload all data
-router.post('/upload-products', upload.single('product'), userController.uploadProducts);
+router.post('/upload-products', upload.single('product'), userController.uploadProductDataSet);
 
 // get data to plot charts
 router.get('/getAgeRangeData',userController.getAgeRange);

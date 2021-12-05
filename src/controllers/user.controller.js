@@ -105,7 +105,7 @@ exports.register=function(req,res){
 
 
 //helps for uploading household csv file to the database - working fine.
-exports.uploadHouseholds = function(req, res) {
+exports.uploadHouseDataSet = function(req, res) {
     var i = 0;
     var headers = null;
     var hjson = [];
@@ -113,12 +113,11 @@ exports.uploadHouseholds = function(req, res) {
     var oname = file.originalname;
 
     fs.createReadStream(req.file.path)
-    .pipe(csvj())
+    .pipe(csvJson())
     .on('data', (row) => {
         var jr = JSON.parse(row);
         if (i==0){
             headers = Object.keys(jr);
-            //console.log(i+"----"+jr+"----"+keys);
             console.log(headers.length+"......"+headers[0]);
         }
         hjson.push(jr);
@@ -146,7 +145,7 @@ exports.uploadHouseholds = function(req, res) {
 };
 
 //helps for inserting transactions csv to the database - working fine.
-exports.uploadTransactions = function(req, res) {
+exports.uploadTransDataSet = function(req, res) {
     var i = 0;
     var headers = null;
     var hjson = [];
@@ -154,12 +153,11 @@ exports.uploadTransactions = function(req, res) {
     var oname = file.originalname;
 
     fs.createReadStream(req.file.path)
-    .pipe(csvj())
+    .pipe(csvJson())
     .on('data', (row) => {
         var jr = JSON.parse(row);
         if (i==0){
             headers = Object.keys(jr);
-            //console.log(i+"----"+jr+"----"+keys);
             console.log(headers.length+"......"+headers[0]);
         }
         hjson.push(jr);
@@ -185,7 +183,7 @@ exports.uploadTransactions = function(req, res) {
     });
 };
 
-exports.uploadProducts = function(req, res) {
+exports.uploadProductDataSet = function(req, res) {
     var i = 0;
     var headers = null;
     var hjson = [];
@@ -193,7 +191,7 @@ exports.uploadProducts = function(req, res) {
     var oname = file.originalname;
 
     fs.createReadStream(req.file.path)
-    .pipe(csvj())
+    .pipe(csvJson())
     .on('data', (row) => {
         var jr = JSON.parse(row);
         if (i==0){
