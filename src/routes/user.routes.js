@@ -18,7 +18,7 @@ router.post('/login', userController.authenticate);
 router.get('/hnum', userController.findByHnum);
 
 // Retrieve a single sample household data
-router.get('/shnum', userController.getSample);
+router.get('/sampledata', userController.getSample);
 
 // Retrieve all households data
 router.get('/getAllData', userController.getAllData);
@@ -33,15 +33,15 @@ router.post('/upload-trnsctns', upload.single('transaction'), userController.upl
 router.post('/upload-products', upload.single('product'), userController.uploadProducts);
 
 // get data to plot charts
-router.get('/getAgeRangeData',userController.getAgeRangeData);
+router.get('/getAgeRangeData',userController.getAgeRange);
 
 // get data to plot charts
-router.get('/getMaritalData',userController.getMaritalData);
+router.get('/getMaritalData',userController.getMaritalStatus);
 
 // get data to plot charts
-router.get('/getWeekData',userController.getWeekData);
+router.get('/getWeekData',userController.getWeeklyData);
 
 // get data to plot charts
-router.get('/getIncomeRangeData',userController.getIncomeRangeData);
+router.get('/getIncomeRangeData',userController.getIncomeRange);
 
 module.exports = router

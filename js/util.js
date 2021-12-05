@@ -1,7 +1,6 @@
 var hsdata = null; 
 
 function onSearch(hnum){
-   // alert("search val"+hnum);
     $('#rstable').removeClass('hide');
     if ( $.fn.DataTable.isDataTable('#rstable') ) {
         $('#rstable').DataTable().destroy();
@@ -19,7 +18,6 @@ function getData(surl) {
         dataType: "json",
         success: function (obj) { 
             data = obj;
-            //alert('success-'+data);
         },
         error: function (e){ 
             console.log("error in getData--"+e);
@@ -52,10 +50,6 @@ function drawSearchGrid(hnum) {
             { "data": "HH_SIZE" },
             { "data": "CHILDREN" }
         ],
-        /*columnDefs: [{
-            "defaultContent": "-",
-            "targets": "_all"
-        }],*/
         "language": {
             "searchPlaceholder": "Search by HSHD_NUM"
         },
@@ -65,29 +59,21 @@ function drawSearchGrid(hnum) {
     } );
 }
 
-// this function is used to intialize the event handlers
+// helps us to intialize the event handlers
 function onint(){
-    // take off all events from the searchfield
     $("#rstable_wrapper input[type='search']").off();
 
-    // Use return key to trigger search
     $("#rstable_wrapper input[type='search']").on("keydown", function(evt){
         if(evt.keyCode == 13){
             var hnum = $("input[type='search']").val();
-            //alert("search val"+hnum);
             $('#rstable').DataTable().ajax.url("/users/hnum?hnum="+hnum).load();
         }
     });
-
-   /* $("#btnrtable").button().on("click", function(){
-        $("#example").DataTable().search($("input[type='search']").val()).draw();
-    });*/
 }
 
 function drawGrid(id, url, jsonData) {
     $('#'+id).DataTable( {
-       "ajax": url,
-        /*"data": jsonData,*/  
+       "ajax": url, 
         "columns": [
             { "data": "HSHD_NUM" },
             { "data": "BASKET_NUM" },
@@ -129,17 +115,12 @@ function getLineDataset(fmap) {
     var cdata = [];
     for (var key in fmap) {
         if (fmap.hasOwnProperty(key)) {
-           // console.log(key);
             var color = getRandomColor();
-            //console.log("color--"+color);
             var xdata = [];
             var v = fmap[key];
-           // console.log(v);
             v.forEach(function (ai) {
-                //console.log(ai);
                 xdata.push(Math.ceil(ai[1])/1000);
             });
-            //console.log(xdata);
             var d = {
                 label: key,
                 fill: false,
@@ -150,10 +131,8 @@ function getLineDataset(fmap) {
             }
 
             cdata.push(d);
-           // console.log(d);
         }
     }
-   // console.log("linedata---"+cdata);
     return cdata;
 }
 
@@ -162,17 +141,13 @@ function getBarDataset(fmap) {
     var cdata = [];
     for (var key in fmap) {
         if (fmap.hasOwnProperty(key)) {
-           // console.log(key);
             var color = getRandomColor();
             console.log("color--"+color);
             var xdata = [];
             var v = fmap[key];
-           // console.log(v);
             v.forEach(function (ai) {
-                //console.log(ai);
                 xdata.push(Math.ceil(ai[1]/1000));
             });
-            //console.log(xdata);
             var d = {
                 label: key,
                 fill: false,
@@ -183,7 +158,6 @@ function getBarDataset(fmap) {
             }
 
             cdata.push(d);
-           //console.log(d);
         }
     }
     console.log("bardata---"+cdata);
