@@ -1,8 +1,8 @@
 'use strict';
-var { sql, poolPromise }  = require('./../../config/db.config');
+const { sql, poolPromise }  = require('./../../config/db.config');
 
-//User object create
-var User = function(user){
+//
+const User = function(user){
   this.firstname     = User.firstname;
   this.lastname      = User.lastname;
   this.email         = User.email;
@@ -10,7 +10,7 @@ var User = function(user){
 };
 
 User.create = async function (newuser, result) {
-var sqlQuery = 'insert into users values (@username, @firstname, @lastname, @email, @accPassword)';
+const sqlQuery = 'insert into users values (@username, @firstname, @lastname, @email, @accPassword)';
   try {
     const pool = await poolPromise;
       const res = await pool.request()
@@ -29,7 +29,7 @@ var sqlQuery = 'insert into users values (@username, @firstname, @lastname, @ema
 };
 
 User.findById = async function (details, result) {
-  var sqlQuery = 'select * from users where email = @email and accPassword = @password';
+  const sqlQuery = 'select * from users where email = @email and accPassword = @password';
   try {
     const pool = await poolPromise;
       const data = await pool.request()
@@ -46,27 +46,18 @@ User.findById = async function (details, result) {
 };
 
 User.findAll = async function (result) {
-/*dbConn.query("select * from ucuser", function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(null, err);
-}
-else{
-  console.log('Users : ', res);
-  result(null, res);
-}
-});*/
+
 };
 
 User.getSample = async function (hnum, result) {
   console.log('hnum----'+hnum);
-  var sqlQuery = 'select HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM, YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM HOUSEHOLDS, TRANSACTIONS, PRODUCTS WHERE HOUSEHOLDS.HSHD_NUM = 10 AND HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM AND TRANSACTIONS.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM';
+  const sqlQuery = 'select HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM, YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM HOUSEHOLDS, TRANSACTIONS, PRODUCTS WHERE HOUSEHOLDS.HSHD_NUM = 10 AND HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM AND TRANSACTIONS.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM';
    try {
       const pool = await poolPromise;
       const data = await pool.request()
       .input('hnum', sql.VarChar , hnum)
       .query(sqlQuery);
-      var rs = JSON.stringify(data.recordset);
+      const rs = JSON.stringify(data.recordset);
       console.log('rs.firstname---'+rs);
       result(null, data.recordset);
     } catch (err) {
@@ -76,7 +67,7 @@ User.getSample = async function (hnum, result) {
   };
 
   User.getAgeRangeData = async function (req, result) {
-    var sqlQuery = 'select AGE_RANGE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY AGE_RANGE, YEAR ORDER BY YEAR, AGE_RANGE'
+    const sqlQuery = 'select AGE_RANGE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY AGE_RANGE, YEAR ORDER BY YEAR, AGE_RANGE'
     try {
         const pool = await poolPromise;    
         const data = await pool.request()
@@ -88,86 +79,82 @@ User.getSample = async function (hnum, result) {
       }
     };
 
-    User.getHshdSizeData = async function (req, result) {
-      var sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
+User.getHshdSizeData = async function (req, result) {
+      const sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
         try {
           const pool = await poolPromise;
           const data = await pool.request()
           .query(sqlQuery);
-          var rs = JSON.stringify(data.recordset);
+          const rs = JSON.stringify(data.recordset);
           console.log('cdata---'+rs);
           result(null, data.recordset);
         } catch (err) {
           console.log('error: ', err);
           result(err, null);
         }
-      };
+ };
 
-      User.getMaritalData = async function (req, result) {
-        var sqlQuery = 'select MARITAL_STATUS, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY MARITAL_STATUS, YEAR';
+User.getMaritalData = async function (req, result) {
+        const sqlQuery = 'select MARITAL_STATUS, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY MARITAL_STATUS, YEAR';
        try {
             const pool = await poolPromise;
-            
             const data = await pool.request()
             .query(sqlQuery);
-            var rs = JSON.stringify(data.recordset);
+            const rs = JSON.stringify(data.recordset);
             console.log('getMaritalData---'+rs);
             result(null, data.recordset);
           } catch (err) {
             console.log('error: ', err);
             result(err, null);
           }
-        };
+};
 
-        User.getWeekData = async function (req, result) {
-          var sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
+User.getWeekData = async function (req, result) {
+        const sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
          try {
               const pool = await poolPromise;
-              
               const data = await pool.request()
               .query(sqlQuery);
-              var rs = JSON.stringify(data.recordset);
+              const rs = JSON.stringify(data.recordset);
               console.log('getWeekData---'+rs);
               result(null, data.recordset);
             } catch (err) {
               console.log('error: ', err);
               result(err, null);
             }
-          };
+};
 
-          User.getIncomeRangeData = async function (req, result) {
-            var sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
+User.getIncomeRangeData = async function (req, result) {
+  const sqlQuery = 'select HH_SIZE, YEAR, SUM(SPEND) AS SPENT FROM HOUSEHOLDS,TRANSACTIONS WHERE HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM GROUP BY HH_SIZE, YEAR';
             try {
                 const pool = await poolPromise;
-                
                 const data = await pool.request()
                 .query(sqlQuery);
-                var rs = JSON.stringify(data.recordset);
+                const rs = JSON.stringify(data.recordset);
                 console.log('getIncomeRangeData---'+rs);
                 result(null, data.recordset);
               } catch (err) {
                 console.log('error: ', err);
                 result(err, null);
               }
-            };
+};
 
 User.findByHnum = async function (hnum, result) {
-    var sqlQuery = 'select HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM, YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM HOUSEHOLDS, TRANSACTIONS, PRODUCTS WHERE HOUSEHOLDS.HSHD_NUM = @hnum AND HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM AND TRANSACTIONS.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM ORDER BY HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY';
+  const sqlQuery = 'select HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM, YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM HOUSEHOLDS, TRANSACTIONS, PRODUCTS WHERE HOUSEHOLDS.HSHD_NUM = @hnum AND HOUSEHOLDS.HSHD_NUM = TRANSACTIONS.HSHD_NUM AND TRANSACTIONS.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM ORDER BY HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY';
     try {
       const pool = await poolPromise;
       const data = await pool.request()
       .input('hnum', sql.VarChar , hnum)
       .query(sqlQuery);
-      var rs = JSON.stringify(data.recordset);
       result(null, data.recordset);
     } catch (err) {
       console.log('error: ', err);
       result(err, null);
     }
-  };
+};
 
-  User.getAllData = async function (req, result) {
-    var sqlQuery = 'WITH R1 AS (SELECT TOP 10000 * FROM TRANSACTIONS ORDER BY HSHD_NUM ASC), R2 AS (SELECT HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM,YEAR FROM R1 INNER JOIN PRODUCTS ON R1.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM) SELECT HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM,YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM R2 INNER JOIN HOUSEHOLDS ON HOUSEHOLDS.HSHD_NUM = R2.HSHD_NUM';
+User.getAllData = async function (req, result) {
+  const sqlQuery = 'WITH R1 AS (SELECT TOP 10000 * FROM TRANSACTIONS ORDER BY HSHD_NUM ASC), R2 AS (SELECT HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCTS.PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM,YEAR FROM R1 INNER JOIN PRODUCTS ON R1.PRODUCT_NUM = PRODUCTS.PRODUCT_NUM) SELECT HOUSEHOLDS.HSHD_NUM, BASKET_NUM, PURCHASE_DATE, PRODUCT_NUM, DEPARTMENT, COMMODITY, SPEND, UNITS, STORE_REGION, WEEK_NUM,YEAR, LOYALTY_FLAG, AGE_RANGE, MARITAL_STATUS, INCOME_RANGE, HOMEOWNER_DESC, HSHD_COMPOSITION, HH_SIZE, CHILDREN FROM R2 INNER JOIN HOUSEHOLDS ON HOUSEHOLDS.HSHD_NUM = R2.HSHD_NUM';
       try {
         const pool = await poolPromise;
         const data = await pool.request()
@@ -177,11 +164,10 @@ User.findByHnum = async function (hnum, result) {
         console.log('error: ', err);
         result(err, null);
       }
-    };
+};
 
-    User.uploadHouseholds = async function (headers, hjson, response) {
+User.uploadHouseholds = async function (headers, hjson, response) {
       try {
-        var hlength = headers.length;
         const pool = await poolPromise;
         const table = new sql.Table('HOUSEHOLDS');
         table.columns.add('HSHD_NUM', sql.Int, {nullable: true});
@@ -195,15 +181,15 @@ User.findByHnum = async function (hnum, result) {
         table.columns.add('CHILDREN', sql.NVarChar(50), {nullable: true});
         
         hjson.forEach(function(jobj) {
-          var hnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
-          var lf = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
-          var ar = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
-          var ms = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
-          var ir = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
-          var hd = (jobj[headers[5]] != null) ? jobj[headers[5]].trim() : jobj[headers[5]];
-          var hc = (jobj[headers[6]] != null) ? jobj[headers[6]].trim() : jobj[headers[6]];
-          var hs = (jobj[headers[7]] != null) ? jobj[headers[7]].trim() : jobj[headers[7]];
-          var ch = (jobj[headers[8]] != null) ? jobj[headers[8]].trim() : jobj[headers[8]];
+          const hnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
+          const lf = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
+          const ar = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
+          const ms = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
+          const ir = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
+          const hd = (jobj[headers[5]] != null) ? jobj[headers[5]].trim() : jobj[headers[5]];
+          const hc = (jobj[headers[6]] != null) ? jobj[headers[6]].trim() : jobj[headers[6]];
+          const hs = (jobj[headers[7]] != null) ? jobj[headers[7]].trim() : jobj[headers[7]];
+          const ch = (jobj[headers[8]] != null) ? jobj[headers[8]].trim() : jobj[headers[8]];
           table.rows.add(hnum, lf, ar, ms, ir, hd, hc, hs, ch);
         });
         const res = await pool.request()
@@ -221,11 +207,10 @@ User.findByHnum = async function (hnum, result) {
         console.log('error: ', err);
         response(err, null);
       }
-    };
+};
 
-    User.uploadTransactions = async function (headers, hjson, response) {
+User.uploadTransactions = async function (headers, hjson, response) {
       try {
-        var hlength = headers.length;
         const pool = await poolPromise;
         const table = new sql.Table('TRANSACTIONS');
         table.columns.add('HSHD_NUM', sql.Int, {nullable: true});
@@ -239,15 +224,15 @@ User.findByHnum = async function (hnum, result) {
         table.columns.add('YEAR', sql.SmallInt, {nullable: true});
         
         hjson.forEach(function(jobj) {
-          var hnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
-          var bn = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
-          var pd = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
-          var pnum = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
-          var sp = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
-          var un = (jobj[headers[5]] != null) ? jobj[headers[5]].trim() : jobj[headers[5]];
-          var sr = (jobj[headers[6]] != null) ? jobj[headers[6]].trim() : jobj[headers[6]];
-          var wnum = (jobj[headers[7]] != null) ? jobj[headers[7]].trim() : jobj[headers[7]];
-          var yr = (jobj[headers[8]] != null) ? jobj[headers[8]].trim() : jobj[headers[8]];
+          const hnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
+          const bn = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
+          const pd = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
+          const pnum = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
+          const sp = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
+          const un = (jobj[headers[5]] != null) ? jobj[headers[5]].trim() : jobj[headers[5]];
+          const sr = (jobj[headers[6]] != null) ? jobj[headers[6]].trim() : jobj[headers[6]];
+          const wnum = (jobj[headers[7]] != null) ? jobj[headers[7]].trim() : jobj[headers[7]];
+          const yr = (jobj[headers[8]] != null) ? jobj[headers[8]].trim() : jobj[headers[8]];
           table.rows.add(hnum, bn, pd, pnum, sp, un, sr, wnum, yr);
         });
         const res = await pool.request()
@@ -265,11 +250,10 @@ User.findByHnum = async function (hnum, result) {
         console.log('error: ', err);
         response(err, null);
       }
-    };
+};
 
-    User.uploadProducts = async function (headers, hjson, response) {
-      try {
-        var hlength = headers.length;
+User.uploadProducts = async function (headers, hjson, response) {
+      try {;
         const pool = await poolPromise;
         const table = new sql.Table('PRODUCTS');
         table.columns.add('PRODUCT_NUM', sql.Int, {nullable: false});
@@ -279,11 +263,11 @@ User.findByHnum = async function (hnum, result) {
         table.columns.add('NATURAL_ORGANIC_FLAG', sql.NVarChar(50), {nullable: true});
         
         hjson.forEach(function(jobj) {
-          var pnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
-          var dp = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
-          var co = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
-          var bt = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
-          var nof = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
+          const pnum = (jobj[headers[0]] != null) ? jobj[headers[0]].trim() : jobj[headers[0]];
+          const dp = (jobj[headers[1]] != null) ? jobj[headers[1]].trim() : jobj[headers[1]];
+          const co = (jobj[headers[2]] != null) ? jobj[headers[2]].trim() : jobj[headers[2]];
+          const bt = (jobj[headers[3]] != null) ? jobj[headers[3]].trim() : jobj[headers[3]];
+          const nof = (jobj[headers[4]] != null) ? jobj[headers[4]].trim() : jobj[headers[4]];
          
           table.rows.add(pnum, dp, co, bt, nof);
         });
@@ -302,7 +286,7 @@ User.findByHnum = async function (hnum, result) {
         console.log('error: ', err);
         response(err, null);
       }
-    };
+};
 
 
 module.exports= User;

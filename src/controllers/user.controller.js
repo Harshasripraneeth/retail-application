@@ -5,20 +5,16 @@ const csvJson = require("csvtojson");
 const NodeCache = require( "node-cache" );
 const applicationCache = new NodeCache();
 
-
-
 exports.findAll = function(req, res) {
 User.findAll(function(err, user) {
-  console.log('controller')
   if (err)
   res.send(err);
-  console.log('res', user);
+  
   res.send(user);
 });
 };
 
 exports.create = function (req, res) {
-    console.log(req.body.User)
     const newUser={
         'firstname': req.body.User.firstname,
         'lastname': req.body.User.lastname,
@@ -76,7 +72,7 @@ exports.authenticate = function (req, res) {
 
 //helps for registering the user credentials.
 exports.register=function(req,res){
-    console.log('starting registration process for: '+req.body.username);
+    console.log('Registaration in progress for: '+req.body.username);
     const userDetails={
         'firstname': req.body.firstname,
         'lastname': req.body.lastname,
@@ -118,16 +114,15 @@ exports.uploadHouseDataSet = function(req, res) {
         var jr = JSON.parse(row);
         if (i==0){
             headers = Object.keys(jr);
-            console.log(headers.length+"......"+headers[0]);
+            console.log(headers.length+": "+headers[0]);
         }
         hjson.push(jr);
         i++;
     })
     .on('end', () => {
-        console.log(hjson);
        User.uploadHouseholds(headers, hjson, function (error, results) {
             if (error) {
-                console.log("Household data insertion failed");
+                console.log("Insertion of Household csv failed to database.");
                 res.json({
                     status: false,
                     message: 'Error: '+error
@@ -158,22 +153,22 @@ exports.uploadTransDataSet = function(req, res) {
         var jr = JSON.parse(row);
         if (i==0){
             headers = Object.keys(jr);
-            console.log(headers.length+"......"+headers[0]);
+            console.log(headers.length+": "+headers[0]);
         }
         hjson.push(jr);
         i++;
     })
     .on('end', () => {
-        console.log(hjson);
+    
        User.uploadTransactions(headers, hjson, function (error, results) {
             if (error) {
-                console.log("Transactions data insertion failed");
+                console.log("Insertion of transaction dataset to the datbase failed");
                 res.json({
                     status: false,
                     message: 'Error: '+error
                 });
             } else {
-                console.log("Transactions data inserted to DB successfully");
+                console.log("Transactions data inserted to DB successfully.");
                 res.json({
                     status: true,
                     message: oname+" uploaded successfully"
@@ -196,14 +191,12 @@ exports.uploadProductDataSet = function(req, res) {
         var jr = JSON.parse(row);
         if (i==0){
             headers = Object.keys(jr);
-            //console.log(i+"----"+jr+"----"+keys);
-            console.log(headers.length+"......"+headers[0]);
+            console.log(headers.length+": "+headers[0]);
         }
         hjson.push(jr);
         i++;
     })
     .on('end', () => {
-        //console.log(hjson);
        User.uploadProducts(headers, hjson, function (error, results) {
             if (error) {
                 res.json({
@@ -225,22 +218,21 @@ exports.findByHnum = function(req, res) {
       if (err) res.send(err);
       const jsonResult = {};
       jsonResult["data"] = result;
-      console.log("json obj---"+JSON.stringify(jsonResult));
+      console.log("result: "+JSON.stringify(jsonResult));
       res.json(jsonResult);
     });
 };
 
 exports.getSample = function(req, res) {
     const value = applicationCache.get("sample");
-    console.log("in getSample --"+value);
+    console.log("getSample function: "+value);
     if (value == undefined) {
-        console.log(req.query)
         User.getSample(req.query.hnum, function(err, result) {
         if (err)
         res.send(err);
         const jsonResult = {};
         jsonResult["data"] = result;
-        console.log("json obj---"+JSON.stringify(jsonResult));
+        console.log("Result: "+JSON.stringify(jsonResult));
         applicationCache.set("sample", jsonResult, 3600000);
         res.json(jsonResult);
         });
@@ -252,7 +244,6 @@ exports.getSample = function(req, res) {
 
 exports.getAllData = function(req, res) {
     User.getAllData(req, function(err, result) {
-      console.log('controller')
       if (err) res.send(err);
       const jsonResult = {};
       jsonResult["data"] = result;
@@ -262,7 +253,7 @@ exports.getAllData = function(req, res) {
 
 exports.getAgeRange = function(req, res) {
     const ageRangeData = applicationCache.get("ageRangeData");
-    console.log("in getAgeRangeData --"+ageRangeData);
+    console.log("getRange: "+ageRangeData);
     if ( ageRangeData == undefined ){
         User.getAgeRangeData(req, function(err, result) {
             if (err)
@@ -295,7 +286,7 @@ exports.getAgeRange = function(req, res) {
 
 exports.getMaritalStatus = function(req, res) {
     const martialStatusData = applicationCache.get("maritalData");
-    console.log("in getMaritalData --"+martialStatusData);
+    console.log("getMartialStatus: "+martialStatusData);
     if ( martialStatusData == undefined ){
         User.getMaritalData(req, function(err, result) {
             if (err)
@@ -320,7 +311,7 @@ exports.getMaritalStatus = function(req, res) {
                 resultMap["data"] = ymap;
                 result = resultMap;
             }
-            console.log("maritalData json obj---"+JSON.stringify(result));
+            console.log("maritalData Result: "+JSON.stringify(result));
             applicationCache.set("maritalData", result, 3600000);
             res.json(result);
         });
@@ -332,7 +323,7 @@ exports.getMaritalStatus = function(req, res) {
 
 exports.getWeeklyData = function(req, res) {
     const weeklyData = applicationCache.get("wkData");
-    console.log("in getWeekData --"+weeklyData);
+    console.log("getWeekData: "+weeklyData);
     if ( weeklyData == undefined ){
         User.getWeekData(req, function(err, result) {
             if (err)
@@ -357,7 +348,7 @@ exports.getWeeklyData = function(req, res) {
                 resultMap["data"] = ymap;
                 result = resultMap;
             }
-            console.log("weeklyData json obj---"+JSON.stringify(result));
+            console.log("weeklyData Result: "+JSON.stringify(result));
             applicationCache.set("wkData", result, 3600000);
             res.json(result);
         });
@@ -369,7 +360,7 @@ exports.getWeeklyData = function(req, res) {
 
 exports.getIncomeRange = function(req, res) {
     const incomeData = applicationCache.get("irData");
-    console.log("in getIncomeRangeData --"+incomeData);
+    console.log("getIncomeRange: "+incomeData);
     if ( incomeData == undefined ){
         User.getIncomeRangeData(req, function(err, result) {
             if (err)
@@ -391,7 +382,7 @@ exports.getIncomeRange = function(req, res) {
                 resultMap["data"] = xmap;
                 result = resultMap;
             }
-            console.log("irData json obj---"+JSON.stringify(result));
+            console.log("incomeRange Result: "+JSON.stringify(result));
             applicationCache.set("irData", result, 3600000);
             res.json(result);
         });
