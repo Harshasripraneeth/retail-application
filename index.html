@@ -1,0 +1,136 @@
+<html>  
+<head>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+        form {border: 3px solid #f1f1f1;}
+        
+        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+        }
+        
+        button {
+          background-color: #604897;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 60%;
+            border: 3px solid #bb7e71;
+            padding: 15px;
+        }
+        
+        p.plogin {
+          float: right;
+          padding-top: 16px;
+        }
+        
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+    $(document).ready(function(){
+        (function ($) {
+            $.fn.serializeFormJSON = function () {
+
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name]) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+        })(jQuery);
+
+        $("form").submit(function(e){
+            e.preventDefault();
+            var data = { 
+                "firstname": $('#fname').val(),
+                "lastname": $('#lname').val(),
+                "username": $('#uname').val(),
+                "email": $('#email').val(), 
+                "password": $('#pwd').val() 
+            };
+            //alert(data);
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: '/users/register',
+                data: data,
+                dataType: "json",
+                success: function (obj) { 
+                    //alert('success-'+obj.status);
+                    //alert('results-'+obj.results)
+                    $(".formc").hide(); 
+                    var content = "<table>";
+                    $.each(data, function(key,value){
+                        //alert(key+","+value);
+                        content += '<tr><td>' + key +  ': </td><td>'+value+'</td></tr>';
+                    });
+                    content += "</table>";
+                    $("#stable").append(content);
+                    $(".sshow").show();
+                },
+                error: function (err){ 
+                    //alert('error---'+err.responseText)
+                    $(".fshow").show();
+                }
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+<!--<form action="/users/register" method="POST">  -->
+    
+<form id="rform" class="formc" action="#" method="POST">
+    <div class="container">
+        <label><b>First Name</b></label>
+        <input type="text" id="fname" name="firstname" maxlength="20" placeholder="Enter First Name" required>
+        <label><b>Last Name</b></label>
+        <input type="text" id="lname" name="lastname" maxlength="20" placeholder="Enter Last Name" required>
+        <label><b>User Name</b></label>
+        <input type="text" id="uname" name="username" maxlength="20" placeholder="Enter User Name" required>
+        <label><b>Email</b></label>
+        <input type="text" id="email" name="email" maxlength="30" placeholder="Enter Email" required>
+        <label><b>Password</b></label>
+        <input type="password" id="pwd" name="password" maxlength="15" placeholder="Enter Password" required>
+        <input id="sbtn" type="submit" value="Submit">
+    </div>
+</form>
+
+<div class="container" style="background-color:#cbd1da">
+    <p class="formc">Have An Account? <a href="/login">Login</a></p>
+    <div id="sdiv" class="sshow" style="display:none">
+        <div id="stable"></div>
+    </div>
+    <p class="sshow" style="display:none">User Successfully Registered. Please login <a href="/login">Login</a></p>
+    <p class="fshow" style="display:none">Something went wrong. Try again</p>
+</div>
+
+
+</body>  
+</html>  

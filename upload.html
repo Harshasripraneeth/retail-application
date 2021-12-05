@@ -1,0 +1,98 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#upbtn").on("click",function(){
+                onUpload();
+            });  
+        }); 
+        
+        function onUpload() {
+            //alert("start");
+            console.log("start upload");
+            var omsg = "";
+            var fd = new FormData();
+            var ftyp = $("#sftyp").val();
+            var file = $("#sinput")[0].files[0];
+            var upurl = "/users/upload-hshd";
+            if (ftyp == "transaction") {
+                upurl = "/users/upload-trnsctns";
+            } else if (ftyp == "product") {
+                upurl = "/users/upload-products";
+            }
+            //alert(ftyp);
+            //alert(file);
+            console.log(""+ftyp+","+file);
+            fd.append(ftyp, file);
+           // fd.append("fileName", ftyp);
+            $.ajax({
+                url: upurl,
+                type: "POST",
+                data: fd,
+                cache: false,
+                processData: false,
+                contentType: false,
+                crossDomain: true,
+                beforeSend: function () {
+                    $("#output").html("Upload inprogress, please wait....");
+                },
+                success: function (data) { 
+                    console.log("uplaod success");
+                    $("#output").html(data.message);
+                    omsg = data.message;
+                },
+                complete: function (data) {
+                    console.log("upload ajax completed");
+                    $("#output").html(omsg);
+                },
+                error: function (e) {
+                    console.log("ERROR "+e.error);
+                    $("#output").html("Upload failed --"+e.error);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    
+        <!--<p>Upload Households CSV</p>&nbsp;<input type="file" name="csvh" id="sinput" /><button type="submit" id="hbttn">UPLOAD</button>
+   
+   
+        <p>Upload Transactions CSV</p>&nbsp;<input type="file" name="csvt" id="sinput" /><button type="submit" id="tbttn">UPLOAD</button>
+    
+   
+        <p>Upload Products CSV</p>&nbsp;<input type="file" name="csvp" id="sinput" /><button type="submit" id="pbttn">UPLOAD</button>-->
+    
+    <!--<table class="utable">
+        <tr>
+            <td>
+                <label for="cars">Select the file type:</label>
+            </td>
+            <td>
+                <select name="ftyp" id="sftyp" class="form-control" aria-placeholder="Select the file type">
+                    <option value="household">Households File</option>
+                    <option value="transaction">Transactions File</option>
+                    <option value="product">Products File</option>
+                </select>
+            </td>
+            <td>
+                <input type="file" name ="csvfile" id="sinput" class="form-control bspace" placeholder="Upload CSV file" />
+            </td>
+            <td>
+                <button id="upbtn" class="btn btn-outline-secondary" type="button">UPLOAD</button>
+            </td>
+        </tr>
+    </table> --> 
+    <select name="ftyp" id="sftyp" class="form-control bspace" aria-placeholder="Select the file type">
+        <option value="household">Households File</option>
+        <option value="transaction">Transactions File</option>
+        <option value="product">Products File</option>
+    </select><input type="file" name ="csvfile" id="sinput" class="form-control bspace" placeholder="Upload CSV file" /><button id="upbtn" class="btn btn-outline-secondary" type="button">UPLOAD</button>
+    <br/><br/>
+    <p id="output"></p>
+</body>
+</html>

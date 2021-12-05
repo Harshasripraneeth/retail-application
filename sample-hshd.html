@@ -1,0 +1,50 @@
+<html> 
+<head>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+            
+        }
+        th { font-size: 9px; }
+        td { font-size: 11px; }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            drawGrid("rtable", "/users/shnum?hnum=10", hsdata);
+        });             
+    </script>
+</head> 
+<body>  
+    <table id="rtable" class="display" style="width: 100%">
+        <thead>
+            <tr>
+                <th>HSHD_NUM</th>
+                <th>BASKET_NUM</th>
+                <th>DATE</th>
+                <th>PRODUCT_NUM</th>
+                <th>DEPARTMENT</th>
+                <th>COMMODITY</th>
+                <th>SPEND</th>
+                <th>UNITS</th>
+                <th>STORE_REGION</th>
+                <th>WEEK_NUM</th>
+                <th>YEAR</th>
+                <th>LOYALTY_FLAG</th>
+                <th>AGE_RANGE</th>
+                <th>MARITAL_STATUS</th>
+                <th>INCOME_RANGE</th>
+                <th>HOMEOWNER_DESC</th>
+                <th>HSHD_COMPOSITION</th>
+                <th>HH_SIZE</th>
+                <th>CHILDREN</th>
+            </tr>
+        </thead>
+    </table>
+    </body>
+</html>  

@@ -1,0 +1,104 @@
+<html> 
+<head>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+        form {border: 3px solid #9c8f8f;}
+        
+        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid rgb(71, 41, 41);
+          box-sizing: border-box;
+        }
+        
+        button {
+          background-color: #8a4080;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 60%;
+            border: 3px solid #322655;
+            padding: 15px;
+        }
+        
+        p.plogin {
+          float: right;
+          padding-top: 16px;
+        }
+        
+    </style>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+            $("form").submit(function(e){
+                e.preventDefault();
+                var data = { 
+                    "email": $('#email').val(), 
+                    "password": $('#pwd').val() 
+                };
+               // alert(data.email);
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '/users/login',
+                    data: data,
+                    dataType: "json",
+                    success: function (obj) { 
+                        //alert('success-'+obj.data)
+                        var status = obj.status;
+                        if(status){
+                            $(".formc").hide(); 
+                            $("#fdiv").show();
+                            $("#rdiv").show();
+                            window.location.assign("/main");
+                        } else {
+                            $("#fdiv").append('<p>'+obj.message+'</p>').show();
+                            $("#rdiv").hide();
+                            $("#ldiv").show();
+                        }   
+                    },
+                    error: function (err){ 
+                        $("#fdiv").append('<p>'+err+'</p>').show();
+                    }
+                });
+            });
+        });
+
+    </script>
+</head> 
+<body>  
+<!--<form action="/users/login" method="POST"> --> 
+<form class='formc' action="#" method="POST">
+    <div class="container">
+        <label><b>Email</b></label>
+        <input type="text" id="email" name="email" maxlength="30" placeholder="Enter Email" required> 
+        <label><b>Password</b></label> 
+        <input type="password" id="pwd" name="password" maxlength="15" placeholder="Enter Password" required> 
+        <input id="sbtn" type="submit" value="Login">  
+    </div>
+</form>
+<div class="container" style="background-color:#d3cccc">
+    <div id="fdiv"  style="display:none"></div>
+    <div class="formc" id="ldiv"><p>Don't have an account? <a href="/register">SignUp</a></p></div>
+    <div id="sdiv"></div>
+</div>
+</body>
+</html>  

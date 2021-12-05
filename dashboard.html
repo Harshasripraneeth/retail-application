@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+        <script src="/js/util.js"></script>
+        <script src="/js/arChart.js"></script>
+        <script src="/js/msChart.js"></script>
+        <script src="/js/irChart.js"></script>
+        <script>
+               
+            $(document).ready(function(){
+                window.myLine = lchart;
+                window.myBar = bchart;
+                window.myPie = irchart;
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div style="width:50%; height:50%; float:center; margin:0 auto;">
+            <canvas id="mscanvas"></canvas>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div style="width:55%; height:50%; float:center;margin: 0 auto;">
+            <canvas id="ircanvas"></canvas>
+        </div>
+        <!--<div style="width:50%; height:50%; float:left;">
+            <canvas id="pcanvas"></canvas>-->
+        </div>
+    </body>
+</html>
+
