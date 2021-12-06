@@ -3,32 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
 <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-    .fa-anchor,.fa-coffee {font-size:200px}
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+    .w3-bar,h1,button {font-family: "Arial", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:205px}
     
-    th { font-size: 10px; }
-    td { font-size: 11px; }
-    .main {width: 100%;}
-    .pdiv { position: relative; top: 100px; bottom: 10px; left: 30px; right: 30px; width: 98%;}
-    .stdiv {position: relative; top: 10px; left: 30px; right: 30px; width: 98%;}
-    .bspace {margin-right: 5px;}
+    th { font-size: 12px; }
+    td { font-size: 13px; }
+    .main {width: 105%;}
+    .pdiv { position: relative; top: 105px; bottom: 12px; left: 32px; right: 32px; width: 100%;}
+    .stdiv {position: relative; top: 12px; left: 32px; right: 32px; width: 100%;}
+    .bspace {margin-right: 6px;}
     .hide {display: none;}
-    .sidiv {align-items: center; bottom: 20px;}
+    .sidiv {align-items: center; bottom: 22px;}
     .utable {border: 0px;}
 </style>
 <script>
-    // Used to toggle the menu on small screens when clicking on the menu button
     function myFunction() {
       var x = document.getElementById("navDemo");
       if (x.className.indexOf("w3-show") == -1) {
@@ -43,12 +42,6 @@
         $('#dashboard-div, #search-div, #upload-div').hide();
         $("#sample-div").load("/sampleHshd");
         $("#sample-div").show();
-        
-        /*$("#home").on("click",function(){
-            $('#dashboard-div, #sample-div, #search-div, #upload-div').hide();
-            $("#home-div").load("/home");
-            $("#home-div").show();
-        });*/
        
         $("#dashboard").on("click",function(){
             $('#sample-div, #search-div, #upload-div').hide();
@@ -57,7 +50,6 @@
         });
 
         $("#sample").on("click",function(){
-            //alert("sample");
             $('#dashboard-div, #search-div, #upload-div').hide();
             $("#sample-div").load("/sampleHshd");
             $("#sample-div").show();
@@ -79,18 +71,15 @@
 </head>
 <body>
 <div class="main">
-    <!-- Navbar -->
     <div class="w3-top">
-        <div class="w3-bar w3-blue w3-card w3-left-align w3-large">
+        <div class="w3-bar w3-black w3-card w3-left-align w3-large">
             <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-            <!--<a href="#"  id="home" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">HOME</a>-->
             <a href="#" id="dashboard" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">DASHBOARD</a>
             <a href="#" id="sample" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">SAMPLE DATA PULL</a>
             <a href="#" id="search" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">SEARCH BY HSHD_NUM</a>
             <a href="#" id="upload" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">UPLOAD DATA</a>
         </div>
     </div>
-    <!-- Pages -->
     <div class="pdiv">
         <div id="home-div"></div>
 

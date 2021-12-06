@@ -8,13 +8,13 @@ const config = {
   database: 'retail'
 };
 
-const poolPromise = new sql.ConnectionPool(config)
-  .connect()
-  .then(pool => {
-    console.log('Connected to MSSQL')
-    return pool
-  })
-  .catch(err => console.log('Database Connection Failed! Bad Config: ', err));
+const poolPromise =new sql.ConnectionPool(config)
+    .connect()
+    .then (pool =>{
+        console.log("connected")
+        return pool
+    })
+    .catch(err => console.log("failed to connect", err)); 
 
 module.exports = {
   sql, poolPromise
