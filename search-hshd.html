@@ -8,13 +8,12 @@
     <script>
         $(document).ready(function(){
             $("#btns").click(function(){
-                var hnum = $("#sinput").val();
-                var isNum = /^[0-9]+$/.test(hnum);
-                //alert(hnum+","+isNum);
+                const hnum = $("#sinput").val();
+                const isNum = /^[0-9]+$/.test(hnum);
                 if (isNum) {
                     onSearch(hnum);
                 } else {
-                    alert("Please enter Integer type for HSHD_NUM!!!");
+                    alert("Please enter Integer type only for HSHD_NUM");
                 }
             }); 
         });

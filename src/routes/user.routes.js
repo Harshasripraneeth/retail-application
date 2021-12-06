@@ -27,16 +27,4 @@ router.post('/upload-trnsctns', upload.single('transaction'), userController.upl
 // Upload all data
 router.post('/upload-products', upload.single('product'), userController.uploadProductDataSet);
 
-// get data to plot charts
-router.get('/getAgeRangeData',userController.getAgeRange);
-
-// get data to plot charts
-router.get('/getMaritalData',userController.getMaritalStatus);
-
-// get data to plot charts
-router.get('/getWeekData',userController.getWeeklyData);
-
-// get data to plot charts
-router.get('/getIncomeRangeData',userController.getIncomeRange);
-
 module.exports = router

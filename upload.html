@@ -12,7 +12,6 @@
         }); 
         
         function onUpload() {
-            //alert("start");
             console.log("Uploading started!");
             var omsg = "";
             var formData = new FormData();
@@ -35,7 +34,7 @@
                 contentType: false,
                 crossDomain: true,
                 beforeSend: function () {
-                    $("#output").html("Uploading In Progres....!!!");
+                    $("#output").html("Uploading In Progress....");
                 },
                 success: function (data) { 
                     console.log("Successfully Uploaded");
@@ -43,11 +42,11 @@
                     omsg = data.message;
                 },
                 complete: function (data) {
-                    console.log("uAjax Upload Completed");
+                    console.log("upload complete in Ajax");
                     $("#output").html(omsg);
                 },
                 error: function (e) {
-                    console.log("ERROR "+e.error);
+                    console.log("Error occured: "+e.error);
                     $("#output").html("Upload Not done..."+e.error);
                 }
             });

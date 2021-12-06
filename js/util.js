@@ -1,5 +1,6 @@
 var hsdata = null; 
 
+//helps us in handling table in search hshd.
 function onSearch(hnum){
     $('#rstable').removeClass('hide');
     if ( $.fn.DataTable.isDataTable('#rstable') ) {
@@ -9,6 +10,7 @@ function onSearch(hnum){
     drawSearchGrid(hnum);
 }
 
+//helps us to get data.
 function getData(surl) {
     var data= null;
     $.ajax({
@@ -20,12 +22,13 @@ function getData(surl) {
             data = obj;
         },
         error: function (e){ 
-            console.log("error in getData--"+e);
+            console.log("error in getData: "+e);
         }
     });
     return data;
 }
 
+//helps us to draw table in search hshd.
 function drawSearchGrid(hnum) {
     $('#rstable').DataTable( {
         "ajax": "/users/hnum?hnum="+hnum,
@@ -71,6 +74,7 @@ function onint(){
     });
 }
 
+//helps us to handle table in sample hshd.
 function drawGrid(id, url, jsonData) {
     $('#'+id).DataTable( {
        "ajax": url, 
@@ -100,83 +104,3 @@ function drawGrid(id, url, jsonData) {
         "searching": false
     } );
 }
-
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
-
-function getLineDataset(fmap) {
-    var cdata = [];
-    for (var key in fmap) {
-        if (fmap.hasOwnProperty(key)) {
-            var color = getRandomColor();
-            var xdata = [];
-            var v = fmap[key];
-            v.forEach(function (ai) {
-                xdata.push(Math.ceil(ai[1])/1000);
-            });
-            var d = {
-                label: key,
-                fill: false,
-                backgroundColor: color,
-                borderColor: color,
-                data: xdata,
-                showLine: true,
-            }
-
-            cdata.push(d);
-        }
-    }
-    return cdata;
-}
-
-
-function getBarDataset(fmap) {
-    var cdata = [];
-    for (var key in fmap) {
-        if (fmap.hasOwnProperty(key)) {
-            var color = getRandomColor();
-            console.log("color--"+color);
-            var xdata = [];
-            var v = fmap[key];
-            v.forEach(function (ai) {
-                xdata.push(Math.ceil(ai[1]/1000));
-            });
-            var d = {
-                label: key,
-                fill: false,
-                backgroundColor: color,
-                borderColor: color,
-                data: xdata,
-                borderWidth: 1
-            }
-
-            cdata.push(d);
-        }
-    }
-    console.log("bardata---"+cdata);
-    return cdata;
-}
-
-function getPieDataset(xdata) {
-    var cdata = {};
-    var xadata = [];
-    var bc = [];
-    xdata.forEach(function (ai) {
-        xadata.push(ai.toPrecision(3));
-        bc.push(getRandomColor()); 
-    });
-    cdata["data"] = xadata;
-    cdata["backgroundColor"] = bc;
-    console.log("pie-data xadata"+xadata);
-    console.log("pie-data bc"+bc);
-    console.log("pie-data"+JSON.stringify(cdata));
-    return cdata;
-}
-   

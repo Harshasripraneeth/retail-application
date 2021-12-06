@@ -51,7 +51,6 @@
                     "email": $('#email').val(), 
                     "password": $('#pwd').val() 
                 };
-               // alert(data.email);
                 $.ajax({
                     type: "POST",
                     async: true,
@@ -59,7 +58,6 @@
                     data: data,
                     dataType: "json",
                     success: function (obj) { 
-                        //alert('success-'+obj.data)
                         var status = obj.status;
                         if(status){
                             $(".formc").hide(); 
